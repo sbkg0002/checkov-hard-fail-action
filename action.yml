@@ -1,9 +1,9 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Checkov hard-fail'
+description: 'Run checkov with the possibility to hard-fail'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'
-    required: true
+    required: false
     default: 'World'
 outputs:
   time: # id of output

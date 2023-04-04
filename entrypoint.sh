@@ -1,5 +1,7 @@
-#!/bin/sh -l
+#!/bin/sh
 
-echo "Hello $1"
-time=$(date)
-echo "time=$time" >> $GITHUB_OUTPUT
+echo "Installing ${1}"
+
+# pip install -U checkov==${1}
+
+python3 /main.py
