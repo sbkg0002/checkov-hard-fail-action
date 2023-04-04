@@ -3,8 +3,7 @@ description: 'Run checkov with the possibility to hard-fail'
 inputs:
   hard-fail-on:
     description: 'Comma seperated list of controls that are not allowed to fail or skip.'
-    required: false
-    default: 'CKV2_AWS_40,CKV_AWS_110'
+    required: true
   path:
     description: 'Path with files to check. Defaults to the the root.'
     required: false
