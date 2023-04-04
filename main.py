@@ -3,12 +3,21 @@
 import json
 import subprocess
 import sys
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-hf", "--hard-fail-on", dest='hard_fail_on', help="comma seperated list of hard-fail-on checks.")
+parser.add_argument("-sc", "--skip-checks", dest='skip_checks',
+                    help="comma seperated list of checks to skip.", default='')
+parser.add_argument("-p", "--path", help="path to checks files in.")
+args = parser.parse_args()
 
 
 def checkov(code_path: str) -> None:
     """Main process that checks for skipped checks against the list of hard fails"""
     checkov_process = subprocess.run(
-        ["checkov", "-o", "cli", "-o", "json", "-d", code_path],
+        ["checkov", "-o", "cli", "-o", "json", "-d", code_path, "--skip-check", args.skip_checks],
         universal_newlines=True,
         check=False,
         stdout=subprocess.PIPE,
@@ -18,7 +27,7 @@ def checkov(code_path: str) -> None:
     print(cli_output)
     checkov_results = json.loads(json_output)[0]
 
-    if not (hard_fail_ids := sys.argv[1]):
+    if not (hard_fail_ids := args.hard_fail_on):
         sys.exit(checkov_process.returncode)
 
     illegal_skip = False
@@ -37,7 +46,5 @@ def checkov(code_path: str) -> None:
 
 
 if __name__ == '__main__':
-    CODE_PATH = '/github/workspace/'
-    if len(sys.argv) > 2:
-        CODE_PATH += sys.argv[2]
+    CODE_PATH = f'/github/workspace/{args.path}'
     checkov(code_path=CODE_PATH)

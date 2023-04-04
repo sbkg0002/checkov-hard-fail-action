@@ -8,9 +8,13 @@ inputs:
     description: 'Path with files to check. Defaults to the the root.'
     required: false
     default: '.'
+  skip-checks:
+    description: 'Comma seperated list of controls to skip.'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.hard-fail-on }}
     - ${{ inputs.path }}
+    - ${{ inputs.skip-checks }}
