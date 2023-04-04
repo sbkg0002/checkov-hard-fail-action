@@ -17,6 +17,8 @@ def checkov(config_file: str, code_path: str) -> None:
         stderr=subprocess.PIPE)
     print("DEBUG:")
     print(checkov_process.stdout)
+    print("DEBUG stderr:")
+    print(checkov_process.stderr)
     print("DEBUG END")
 
     # cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
@@ -47,4 +49,4 @@ def checkov(config_file: str, code_path: str) -> None:
 
 
 if __name__ == '__main__':
-    checkov(config_file='config.yaml', code_path='/github/workspace/')
+    checkov(config_file='/config.yaml', code_path='/github/workspace/')
