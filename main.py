@@ -31,9 +31,7 @@ def checkov(code_path: str) -> None:
         sys.exit(checkov_process.returncode)
 
     illegal_skip = False
-    print(f"DEBUG PRINT: {checkov_results['results']}")
     for skipped_check in checkov_results['results']['skipped_checks']:
-        print(f"checking for hardfail check: {skipped_check}")
         if skipped_check['check_id'] not in hard_fail_ids.split(','):
             continue
         print(f"The following check cannot be skipped:\n"
