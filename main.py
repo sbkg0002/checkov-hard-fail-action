@@ -17,7 +17,8 @@ args = parser.parse_args()
 def checkov(code_path: str) -> None:
     """Main process that checks for skipped checks against the list of hard fails"""
     checkov_process = subprocess.run(
-        ["checkov", "-o", "cli", "-o", "json", "-d", code_path, "--quiet", "--skip-check", args.skip_checks],
+        ["checkov", "-o", "cli", "-o", "json", "-d", code_path, "--quiet",
+            "--download-external-modules", "--skip-check", args.skip_checks],
         universal_newlines=True,
         check=False,
         stdout=subprocess.PIPE,
@@ -26,7 +27,7 @@ def checkov(code_path: str) -> None:
 
     print(cli_output)
     checkov_results = json.loads(json_output)[0]
-    
+
     if not (hard_fail_ids := args.hard_fail_on):
         sys.exit(checkov_process.returncode)
 
