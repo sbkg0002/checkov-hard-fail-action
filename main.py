@@ -4,13 +4,11 @@ import json
 import subprocess
 import sys
 
-import yaml
 
-
-def checkov(config_file: str, code_path: str) -> None:
+def checkov(code_path: str) -> None:
     """Main process that checks for skipped checks against the list of hard fails"""
     checkov_process = subprocess.run(
-        ["checkov", "--config-file", config_file, "-o", "cli", "-o", "json", "-d", code_path],
+        ["checkov", "-o", "cli", "-o", "json", "-d", code_path],
         universal_newlines=True,
         check=False,
         stdout=subprocess.PIPE,
@@ -19,11 +17,7 @@ def checkov(config_file: str, code_path: str) -> None:
     cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
 
     print(cli_output)
-    checkov_results = json.loads(json_output)
-
-    # open configfile to check for hard fail CKVs
-    with open(config_file, 'r', encoding='utf-8') as config:
-        checkov_config = yaml.safe_load(config)
+    checkov_results = json.loads(json_output)[0]
 
     if not (hard_fail_ids := sys.argv[1]):
         sys.exit(checkov_process.returncode)
