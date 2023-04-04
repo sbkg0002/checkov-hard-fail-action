@@ -1,15 +1,12 @@
 name: 'Checkov hard-fail'
 description: 'Run checkov with the possibility to hard-fail'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  hard-fail-on:  # id of input
+    description: 'Comma seperated list of controls that are not allowed to fail or skip.'
     required: false
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+    default: 'CKV2_AWS_40,CKV_AWS_110'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.hard-fail-on }}
