@@ -15,6 +15,7 @@ def checkov(config_file: str, code_path: str) -> None:
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE)
+    print(checkov_process.stdout.)
     cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
 
     print(cli_output)
