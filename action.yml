@@ -11,6 +11,7 @@ inputs:
   skip-checks:
     description: 'Comma seperated list of controls to skip.'
     required: false
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
