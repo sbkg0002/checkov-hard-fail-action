@@ -18,34 +18,32 @@ def checkov(code_path: str) -> None:
     """Main process that checks for skipped checks against the list of hard fails"""
     checkov_process = subprocess.run(
         ["checkov", "-o", "cli", "-o", "json", "-d", code_path, "--quiet",
-            "--download-external-modules", "--skip-check", args.skip_checks],
+            "--download-external-modules", "True", "--skip-check", args.skip_checks],
         universal_newlines=True,
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE)
-    print(checkov_process.stdout)
-    print(checkov_process.stderr)
     cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
 
     print(cli_output)
-    # checkov_results = json.loads(json_output)[0]
+    checkov_results = json.loads(json_output)[0]
 
-    # if not (hard_fail_ids := args.hard_fail_on):
-    #     sys.exit(checkov_process.returncode)
+    if not (hard_fail_ids := args.hard_fail_on):
+        sys.exit(checkov_process.returncode)
 
-    # illegal_skip = False
-    # for skipped_check in checkov_results['results']['skipped_checks']:
-    #     if skipped_check['check_id'] not in hard_fail_ids.split(','):
-    #         continue
-    #     print(f"The following check cannot be skipped:\n"
-    #           f"\tCheck: {skipped_check['check_id']}: {skipped_check['check_name']}\n"
-    #           f"\tFile: {skipped_check['file_path']}")
-    #     illegal_skip = True
+    illegal_skip = False
+    for skipped_check in checkov_results['results']['skipped_checks']:
+        if skipped_check['check_id'] not in hard_fail_ids.split(','):
+            continue
+        print(f"The following check cannot be skipped:\n"
+              f"\tCheck: {skipped_check['check_id']}: {skipped_check['check_name']}\n"
+              f"\tFile: {skipped_check['file_path']}")
+        illegal_skip = True
 
-    # if illegal_skip:
-    #     print("\nThe terraform code that has been checked contains hard enforced checks,"
-    #           " it is not allowed to skip hard enforced check: see: http://someniceconfluence doc")
-    #     sys.exit(1)
+    if illegal_skip:
+        print("\nThe terraform code that has been checked contains hard enforced checks,"
+              " it is not allowed to skip hard enforced check: see: http://someniceconfluence doc")
+        sys.exit(1)
 
 
 if __name__ == '__main__':
