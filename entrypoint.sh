@@ -1,6 +1,9 @@
 #!/bin/sh
 
-echo "Hard-fail checks: ${1}"
-
-echo "RUNNING:"
-python3 /main.py ${1}
+echo "##################################"
+echo "hard-fail checks: ${1}"
+echo "path: ${2}"
+echo "##################################"
+echo "running checkov:"
+echo "##################################"
+python3 /main.py ${1} ${2}

@@ -38,4 +38,7 @@ def checkov(code_path: str) -> None:
 
 
 if __name__ == '__main__':
-    checkov(code_path='/github/workspace/')
+    CODE_PATH = '/github/workspace/'
+    if len(sys.argv) > 2:
+        CODE_PATH += sys.argv[2]
+    checkov(code_path=CODE_PATH)

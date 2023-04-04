@@ -1,23 +1,22 @@
-# Hello world docker action
+# Checkov hard-fail
 
-This action prints "Hello World" to the log or "Hello" + the name of a person to greet. To learn how this action was built, see "[Creating a Docker container action](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action)" in the GitHub Docs.
+This action hard fails on given checks.
 
 ## Inputs
 
-### `who-to-greet`
+### `hard-fail-on`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** Comma seperated list of controls that are not allowed to fail or skip.
 
-## Outputs
+### `path`
 
-### `time`
-
-The time we greeted you.
+Path to check. Defaults to root.
 
 ## Example usage
 
 ```yaml
-uses: actions/hello-world-docker-action@main
+uses: sbkg0002/checkov-hard-fail-actio@main
 with:
-  who-to-greet: 'Mona the Octocat'
+  hard-fail-on: 'CKV2_AWS_40,CKV_AWS_110'
+  path: 'terraform/'
 ```
