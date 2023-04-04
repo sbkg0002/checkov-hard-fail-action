@@ -26,9 +26,11 @@ def checkov(code_path: str) -> None:
 
     print(cli_output)
     checkov_results = json.loads(json_output)
-
+    
+    print("DEBUG BEFORE")
     if not (hard_fail_ids := args.hard_fail_on):
         sys.exit(checkov_process.returncode)
+    print("DEBUG AFTER")
 
     illegal_skip = False
     for skipped_check in checkov_results['results']['skipped_checks']:
