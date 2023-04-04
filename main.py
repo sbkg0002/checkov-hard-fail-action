@@ -17,7 +17,8 @@ def checkov(config_file: str, code_path: str) -> None:
         stderr=subprocess.PIPE)
     cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
 
-    print(cli_output)
+    # print(cli_output)
+    # print(json_output)
     checkov_results = json.loads(json_output)
 
     # open configfile to check for hard fail CKVs
