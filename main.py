@@ -26,6 +26,8 @@ def checkov(code_path: str) -> None:
     cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
 
     print(cli_output)
+    print(checkov_process.stdout)
+    print(checkov_process.stderr)
     checkov_results = json.loads(json_output)[0]
 
     if not (hard_fail_ids := args.hard_fail_on):
