@@ -27,7 +27,7 @@ def checkov(code_path: str) -> None:
     print(cli_output)
     checkov_results = json.loads(json_output)
     
-    print("DEBUG BEFORE")
+    print(f"DEBUG BEFORE: {args.hard_fail_on}")
     if not (hard_fail_ids := args.hard_fail_on):
         sys.exit(checkov_process.returncode)
     print("DEBUG AFTER")
