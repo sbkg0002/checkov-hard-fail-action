@@ -43,4 +43,4 @@ def checkov(config_file: str, code_path: str) -> None:
 
 
 if __name__ == '__main__':
-    checkov(config_file='config.yaml', code_path='/github/workspace')
+    checkov(config_file='config.yaml', code_path='/github/workspace/')
