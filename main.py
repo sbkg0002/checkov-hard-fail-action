@@ -18,7 +18,7 @@ def checkov(code_path: str) -> None:
     """Main process that checks for skipped checks against the list of hard fails"""
     checkov_process = subprocess.run(
         ["checkov", "-o", "cli", "-o", "json", "-d", code_path, "--quiet",
-            "--download-external-modules", "True", "--skip-check", args.skip_checks],
+            "--download-external-modules", "True", "--framework", "terraform", "--skip-check", args.skip_checks],
         universal_newlines=True,
         check=False,
         stdout=subprocess.PIPE,
@@ -26,7 +26,7 @@ def checkov(code_path: str) -> None:
     cli_output, json_output = checkov_process.stdout.split('--- OUTPUT DELIMITER ---')
 
     print(cli_output)
-    checkov_results = json.loads(json_output)[0]
+    checkov_results = json.loads(json_output)
 
     if not (hard_fail_ids := args.hard_fail_on):
         sys.exit(checkov_process.returncode)
